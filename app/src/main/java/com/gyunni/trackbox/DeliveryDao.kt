@@ -1,0 +1,16 @@
+package com.gyunni.trackbox
+
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+
+@Dao
+interface DeliveryDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(delivery: Delivery)
+
+    @Query("SELECT * FROM delivery")
+    fun getList() : LiveData<List<Delivery>>
+}
