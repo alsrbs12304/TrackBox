@@ -1,4 +1,4 @@
-package com.gyunni.trackbox
+package com.gyunni.trackbox.view.ui.base
 
 import android.os.Bundle
 import androidx.annotation.LayoutRes

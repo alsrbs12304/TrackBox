@@ -1,4 +1,4 @@
-package com.gyunni.trackbox
+package com.gyunni.trackbox.view.ui.splash
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -6,7 +6,10 @@ import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.annotation.UiThread
+import com.gyunni.trackbox.R
 import com.gyunni.trackbox.databinding.ActivitySplashBinding
+import com.gyunni.trackbox.view.ui.base.BaseActivity
+import com.gyunni.trackbox.view.ui.main.MainActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {

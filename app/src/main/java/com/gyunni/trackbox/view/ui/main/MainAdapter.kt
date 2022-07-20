@@ -1,4 +1,4 @@
-package com.gyunni.trackbox
+package com.gyunni.trackbox.view.ui.main
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.gyunni.trackbox.Delivery
+import com.gyunni.trackbox.R
 
 class MainAdapter(private val context: Context):RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
