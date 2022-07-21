@@ -7,7 +7,7 @@ class DeliveryRepository(application: Application) {
 
     private val deliveryDao = DeliveryDatabase.getInstance(application)!!.deliveryDao()
 
-    suspend fun insert(delivery: Delivery){
+    fun insert(delivery: Delivery){
         deliveryDao.insert(delivery)
     }
 

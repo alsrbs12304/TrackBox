@@ -9,7 +9,7 @@ import androidx.room.Query
 @Dao
 interface DeliveryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(delivery: Delivery)
+    fun insert(delivery: Delivery)
 
     @Query("SELECT * FROM delivery")
     fun getList() : LiveData<List<Delivery>>

@@ -11,7 +11,7 @@ import com.gyunni.trackbox.R
 
 class MainAdapter(private val context: Context):RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
-    var deliveryList = mutableListOf<Delivery>()
+    private var deliveryList : List<Delivery> = ArrayList()
 
     inner class ViewHolder(view : View):RecyclerView.ViewHolder(view){
         private val txtStatus : TextView = itemView.findViewById(R.id.text_status)
@@ -22,6 +22,14 @@ class MainAdapter(private val context: Context):RecyclerView.Adapter<MainAdapter
             txtStatus.text = item.status
             txtCarrierName.text= item.carrierName
             txtTrackId.text = item.trackId
+
+            val pos = adapterPosition
+            if(pos!= RecyclerView.NO_POSITION)
+            {
+                itemView.setOnClickListener {
+                    listener?.onItemClick(itemView,item,pos)
+                }
+            }
         }
     }
 
@@ -36,5 +44,17 @@ class MainAdapter(private val context: Context):RecyclerView.Adapter<MainAdapter
 
     override fun getItemCount(): Int {
         return deliveryList.size
+    }
+
+    fun setList(delivery: List<Delivery>){
+        this.deliveryList = delivery
+    }
+
+    interface OnItemClickListener{
+        fun onItemClick(v:View, data: Delivery, pos : Int)
+    }
+    private var listener : OnItemClickListener? = null
+    fun setOnItemClickListener(listener : OnItemClickListener) {
+        this.listener = listener
     }
 }
