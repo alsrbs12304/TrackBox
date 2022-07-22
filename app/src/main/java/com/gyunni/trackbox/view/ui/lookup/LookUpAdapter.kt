@@ -10,20 +10,21 @@ import com.gyunni.trackbox.Delivery
 import com.gyunni.trackbox.DeliveryResponse
 import com.gyunni.trackbox.R
 import com.gyunni.trackbox.view.ui.main.MainAdapter
+import com.gyunni.trackbox.view.util.TimeUtil
 
-class LookUpAdapter(private val context: Context): RecyclerView.Adapter<LookUpAdapter.ViewHolder>() {
-
-    private var progressList : List<DeliveryResponse.Progresses> = ArrayList()
+class LookUpAdapter(private val progressList : ArrayList<DeliveryResponse.Progresses>, private val context: Context): RecyclerView.Adapter<LookUpAdapter.ViewHolder>() {
 
     inner class ViewHolder(view : View):RecyclerView.ViewHolder(view){
         private val progressStatus : TextView = itemView.findViewById(R.id.textView_timeline_progress_status)
         private val locationName : TextView = itemView.findViewById(R.id.text_location_name)
         private val description : TextView = itemView.findViewById(R.id.text_description)
+        private val time : TextView = itemView.findViewById(R.id.text_time)
 
         fun bind(item : DeliveryResponse.Progresses){
             progressStatus.text = item.status.text
             locationName.text = item.location.name
             description.text = item.description
+            time.text = TimeUtil.getFormatterTime(item.time)
         }
     }
 
@@ -38,9 +39,5 @@ class LookUpAdapter(private val context: Context): RecyclerView.Adapter<LookUpAd
 
     override fun getItemCount(): Int {
         return progressList.size
-    }
-
-    fun setList(progresses: List<DeliveryResponse.Progresses>){
-        this.progressList = progresses
     }
 }

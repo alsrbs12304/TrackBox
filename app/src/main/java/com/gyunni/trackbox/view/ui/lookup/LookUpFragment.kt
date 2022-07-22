@@ -1,12 +1,18 @@
 package com.gyunni.trackbox.view.ui.lookup
 
+import android.app.Activity
+import android.app.Dialog
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.gyunni.trackbox.Delivery
 import com.gyunni.trackbox.DeliveryResponse
 import com.gyunni.trackbox.R
@@ -19,21 +25,35 @@ import com.gyunni.trackbox.view.util.CarrierIdUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.logging.Logger
 
 class LookUpFragment : BaseBottomSheetDialogFragment<FragmentLookUpBinding>(R.layout.fragment_look_up) {
 
     private lateinit var lookUpAdapter: LookUpAdapter
+    private var testName : String? = null
+    private var testId : String? = null
+    private var carrierId : String? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val testName = arguments?.getString("name")
-        val testId = arguments?.getString("id")
-        val carrierId : String? = CarrierIdUtil.convertId(testName!!)
-        initRv()
+        testName = arguments?.getString("name")
+        testId = arguments?.getString("id")
+        carrierId = CarrierIdUtil.convertId(testName!!)
+        Log.d("LookUpFragment","$testName // $testId // $carrierId")
 
-        Log.d("LookUpFragment", "$testName // $carrierId // $testId");
+        loadData()
+    }
 
+    private fun setAdapter(progressList : ArrayList<DeliveryResponse.Progresses>){
+        val mAdapter = LookUpAdapter(progressList, mainActivity)
+        binding.timelineDialogRecyclerView.apply {
+            adapter = mAdapter
+            layoutManager = LinearLayoutManager(mainActivity)
+        }
+    }
+
+    private fun loadData(){
         RetrofitClient.service.getData(carrierId, testId).enqueue(object : Callback<DeliveryResponse>{
             override fun onResponse(
                 call: Call<DeliveryResponse>,
@@ -42,6 +62,10 @@ class LookUpFragment : BaseBottomSheetDialogFragment<FragmentLookUpBinding>(R.la
                 if(response.isSuccessful){
                     val result: DeliveryResponse? = response.body()
                     Log.d("LookUpFragment", "onResponse 성공: " + result?.toString());
+                    result?.let{
+                        setAdapter(it.progresses)
+                    }
+
                 }else{
                     Log.d("LookUpFragment", "onResponse 실패");
                 }
@@ -52,11 +76,5 @@ class LookUpFragment : BaseBottomSheetDialogFragment<FragmentLookUpBinding>(R.la
             }
 
         })
-
-    }
-
-    private fun initRv(){
-        lookUpAdapter = LookUpAdapter(mainActivity)
-        binding.timelineDialogRecyclerView.adapter = lookUpAdapter
     }
 }
