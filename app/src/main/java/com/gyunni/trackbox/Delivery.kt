@@ -2,6 +2,7 @@ package com.gyunni.trackbox
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "delivery")
 data class Delivery(
@@ -14,4 +15,4 @@ data class Delivery(
     val carrierName: String,
     val trackId: String,
     val status: String
-)
+):Serializable

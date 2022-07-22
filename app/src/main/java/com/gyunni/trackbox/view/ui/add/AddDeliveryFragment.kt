@@ -51,16 +51,16 @@ class AddDeliveryFragment :
                     ) {
                         if(response.isSuccessful) {
                             val result: DeliveryResponse? = response.body()
-                            Log.d("MainActivity", "onResponse 성공: " + result?.toString());
+                            Log.d("AddDeliveryFragment", "onResponse 성공: " + result?.toString());
                             val testResult: Delivery? = result?.toDelivery(
                                 result.carrier.id?.toLong(),
                                 result.carrier.name.toString(),
                                 result.carrier.id.toString()
                             )
-                            Log.d("MainActivity", testResult.toString())
+                            Log.d("AddDeliveryFragment", testResult.toString())
                             viewModel.insert(testResult!!)
                         }else{
-                            Log.d("MainActivity", "onResponse 실패");
+                            Log.d("AddDeliveryFragment", "onResponse 실패");
                             Toast.makeText(mainActivity,"해당 운송장이 존재하지 않습니다.",Toast.LENGTH_SHORT).show()
                         }
                     }

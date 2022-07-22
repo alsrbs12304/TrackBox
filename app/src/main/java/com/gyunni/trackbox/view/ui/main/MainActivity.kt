@@ -31,7 +31,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         mainAdapter.setOnItemClickListener(object : MainAdapter.OnItemClickListener{
             override fun onItemClick(v: View, data: Delivery, pos: Int) {
-
+                val bottomSheetDialog = LookUpFragment()
+                var bundle = Bundle()
+                bundle.putString("name", data.carrierName)
+                bundle.putString("id",data.trackId)
+                bottomSheetDialog.arguments = bundle
+                bottomSheetDialog.show(supportFragmentManager, bottomSheetDialog.tag)
             }
 
         })
