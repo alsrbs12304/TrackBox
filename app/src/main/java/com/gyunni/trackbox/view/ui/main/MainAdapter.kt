@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.gyunni.trackbox.Delivery
@@ -17,11 +18,24 @@ class MainAdapter(private val context: Context):RecyclerView.Adapter<MainAdapter
         private val txtStatus : TextView = itemView.findViewById(R.id.text_status)
         private val txtCarrierName : TextView = itemView.findViewById(R.id.text_carrierName)
         private val txtTrackId : TextView = itemView.findViewById(R.id.text_trackId)
+        private val imgStatus : ImageView = itemView.findViewById(R.id.img_status)
 
         fun bind(item : Delivery){
             txtStatus.text = item.status
             txtCarrierName.text= item.carrierName
             txtTrackId.text = item.trackId
+
+            when (item.status) {
+                "상품인수" -> {
+                    imgStatus.setImageResource(R.drawable.takeover)
+                }
+                "상품이동중", "배달출발" -> {
+                    imgStatus.setImageResource(R.drawable.moving)
+                }
+                else -> {
+                    imgStatus.setImageResource(R.drawable.complete)
+                }
+            }
 
             val pos = adapterPosition
             if(pos!= RecyclerView.NO_POSITION)

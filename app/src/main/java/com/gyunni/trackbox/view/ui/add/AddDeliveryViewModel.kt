@@ -15,10 +15,6 @@ class AddDeliveryViewModel(private val repository: DeliveryRepository) : BaseVie
 
     val carrierName = MutableLiveData<String>()
 
-    fun onClickInsertButton() {
-
-    }
-
     fun insert(delivery: Delivery) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insert(delivery)

@@ -59,6 +59,7 @@ class AddDeliveryFragment :
                             )
                             Log.d("AddDeliveryFragment", testResult.toString())
                             viewModel.insert(testResult!!)
+                            dismiss()
                         }else{
                             Log.d("AddDeliveryFragment", "onResponse 실패");
                             Toast.makeText(mainActivity,"해당 운송장이 존재하지 않습니다.",Toast.LENGTH_SHORT).show()
