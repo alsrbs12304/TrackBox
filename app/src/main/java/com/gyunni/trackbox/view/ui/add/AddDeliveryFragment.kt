@@ -42,7 +42,6 @@ class AddDeliveryFragment :
 
         binding.buttonAddLookUp.setOnClickListener {
             trackId = binding.editTextTrackId.text.toString()
-
             RetrofitClient.service.getData(carrierId, trackId)
                 .enqueue(object : Callback<DeliveryResponse> {
                     override fun onResponse(

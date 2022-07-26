@@ -12,5 +12,5 @@ interface DeliveryDao {
     fun insert(delivery: Delivery)
 
     @Query("SELECT * FROM delivery")
-    fun getList() : LiveData<List<Delivery>>
+    fun getList() : LiveData<MutableList<Delivery>>
 }

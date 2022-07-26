@@ -69,4 +69,6 @@ dependencies {
 
     // TimeLine
     implementation 'com.github.vipulasri:timelineview:1.1.5'
+
+    implementation 'com.github.xabaras:RecyclerViewSwipeDecorator:1.4'
 }

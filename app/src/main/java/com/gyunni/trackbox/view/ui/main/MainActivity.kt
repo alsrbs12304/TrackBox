@@ -1,12 +1,15 @@
 package com.gyunni.trackbox.view.ui.main
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.gyunni.trackbox.Delivery
 import com.gyunni.trackbox.R
+import com.gyunni.trackbox.SwipeHelperCallback
 import com.gyunni.trackbox.databinding.ActivityMainBinding
 import com.gyunni.trackbox.view.ui.add.AddDeliveryFragment
 import com.gyunni.trackbox.view.ui.base.BaseActivity
@@ -42,10 +45,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         })
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initRv(){
         mainAdapter = MainAdapter(this)
         binding.rvMain.adapter = mainAdapter
         binding.rvMain.addItemDecoration(VerticalItemDecorator(10))
+
+        val swipeHelperCallback = SwipeHelperCallback(mainAdapter).apply {
+            setClamp(resources.displayMetrics.widthPixels.toFloat() / 4)
+        }
+        ItemTouchHelper(swipeHelperCallback).attachToRecyclerView(binding.rvMain)
+
+        binding.rvMain.setOnTouchListener { _, _ ->
+            swipeHelperCallback.removePreviousClamp(binding.rvMain)
+            false
+        }
 
         viewModel.getList().observe(this, Observer{
             mainAdapter.setList(it)

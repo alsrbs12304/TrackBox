@@ -9,10 +9,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.gyunni.trackbox.Delivery
 import com.gyunni.trackbox.R
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainAdapter(private val context: Context):RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
-    private var deliveryList : List<Delivery> = ArrayList()
+    private var deliveryList : MutableList<Delivery> = ArrayList()
 
     inner class ViewHolder(view : View):RecyclerView.ViewHolder(view){
         private val txtStatus : TextView = itemView.findViewById(R.id.text_status)
@@ -60,7 +62,7 @@ class MainAdapter(private val context: Context):RecyclerView.Adapter<MainAdapter
         return deliveryList.size
     }
 
-    fun setList(delivery: List<Delivery>){
+    fun setList(delivery: MutableList<Delivery>){
         this.deliveryList = delivery
     }
 
@@ -70,5 +72,17 @@ class MainAdapter(private val context: Context):RecyclerView.Adapter<MainAdapter
     private var listener : OnItemClickListener? = null
     fun setOnItemClickListener(listener : OnItemClickListener) {
         this.listener = listener
+    }
+
+    // 현재 선택된 데이터와 드래그한 위치에 있는 데이터를 교환
+    fun swapData(fromPos: Int, toPos: Int) {
+        Collections.swap(deliveryList, fromPos, toPos)
+        notifyItemMoved(fromPos, toPos)
+    }
+
+    // position 위치의 데이터를 삭제 후 어댑터 갱신
+    fun removeData(position: Int) {
+        deliveryList.removeAt(position)
+        notifyItemRemoved(position)
     }
 }

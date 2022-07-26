@@ -11,7 +11,7 @@ class DeliveryRepository(application: Application) {
         deliveryDao.insert(delivery)
     }
 
-    fun getList() : LiveData<List<Delivery>> {
+    fun getList() : LiveData<MutableList<Delivery>> {
         return deliveryDao.getList()
     }
 

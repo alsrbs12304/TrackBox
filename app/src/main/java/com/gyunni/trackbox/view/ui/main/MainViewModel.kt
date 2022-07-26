@@ -10,7 +10,7 @@ import com.gyunni.trackbox.view.ui.base.BaseViewModel
 
 class MainViewModel(private val repository: DeliveryRepository) : BaseViewModel(){
 
-    fun getList() : LiveData<List<Delivery>> {
+    fun getList() : LiveData<MutableList<Delivery>> {
         return repository.getList()
     }
 
