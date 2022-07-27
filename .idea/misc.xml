@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.12579885637403296" />
         <entry key="app/src/main/res/drawable/bg_add_fragment_button.xml" value="0.2035" />
         <entry key="app/src/main/res/drawable/bg_timeline_bottom_sheet.xml" value="0.2005" />
         <entry key="app/src/main/res/drawable/bottom_sheet_radius.xml" value="0.2005" />

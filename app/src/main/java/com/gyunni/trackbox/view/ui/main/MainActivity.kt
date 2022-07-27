@@ -1,7 +1,6 @@
 package com.gyunni.trackbox.view.ui.main
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -9,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.gyunni.trackbox.Delivery
 import com.gyunni.trackbox.R
-import com.gyunni.trackbox.SwipeHelperCallback
+import com.gyunni.trackbox.view.util.SwipeHelperCallback
 import com.gyunni.trackbox.databinding.ActivityMainBinding
 import com.gyunni.trackbox.view.ui.add.AddDeliveryFragment
 import com.gyunni.trackbox.view.ui.base.BaseActivity
@@ -42,6 +41,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 bottomSheetDialog.show(supportFragmentManager, bottomSheetDialog.tag)
             }
 
+        })
+
+        mainAdapter.setOnRemoveClickListener(object : MainAdapter.OnRemoveClickListener{
+            override fun onRemoveClick(v: View, data: Delivery, pos: Int) {
+                viewModel.delete(data)
+                mainAdapter.removeData(pos)
+            }
         })
     }
 

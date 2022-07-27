@@ -20,6 +20,7 @@ class AddDeliveryFragment :
 
     private var carrierId: String? = null
     private var trackId: String? = null
+    private var nickName: String? = null
 
     private val viewModel: AddDeliveryViewModel by lazy {
         ViewModelProvider(
@@ -42,6 +43,8 @@ class AddDeliveryFragment :
 
         binding.buttonAddLookUp.setOnClickListener {
             trackId = binding.editTextTrackId.text.toString()
+            nickName = binding.editTextNickName.text.toString()
+
             RetrofitClient.service.getData(carrierId, trackId)
                 .enqueue(object : Callback<DeliveryResponse> {
                     override fun onResponse(
@@ -54,7 +57,8 @@ class AddDeliveryFragment :
                             val testResult: Delivery? = result?.toDelivery(
                                 result.carrier.id?.toLong(),
                                 result.carrier.name.toString(),
-                                result.carrier.id.toString()
+                                result.carrier.id.toString(),
+                                nickName!!
                             )
                             Log.d("AddDeliveryFragment", testResult.toString())
                             viewModel.insert(testResult!!)

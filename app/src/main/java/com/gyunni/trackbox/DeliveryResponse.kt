@@ -43,7 +43,7 @@ data class DeliveryResponse(
         val name: String?
     )
 
-    fun toDelivery(id: Long?, carrierName: String, trackId: String) =
+    fun toDelivery(id: Long?, carrierName: String, trackId: String, nickName : String) =
         Delivery(
             id = id,
             fromName = from.name ?: "-",
@@ -52,6 +52,7 @@ data class DeliveryResponse(
             carrierId = convertId(carrierName)!!,
             carrierName = carrier.name ?: "-",
             trackId = trackId,
-            status = state.text ?: "-"
+            status = state.text ?: "-",
+            nickName = nickName
         )
 }

@@ -8,6 +8,7 @@ import java.io.Serializable
 data class Delivery(
     @PrimaryKey(autoGenerate = true)
     val id: Long?,
+    val nickName : String? = null,
     val fromName: String,
     val fromTime: String,
     val toName: String,

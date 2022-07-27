@@ -7,14 +7,17 @@ class DeliveryRepository(application: Application) {
 
     private val deliveryDao = DeliveryDatabase.getInstance(application)!!.deliveryDao()
 
-    fun insert(delivery: Delivery){
-        deliveryDao.insert(delivery)
-    }
-
     fun getList() : LiveData<MutableList<Delivery>> {
         return deliveryDao.getList()
     }
 
+    fun insert(delivery: Delivery){
+        deliveryDao.insert(delivery)
+    }
+
+    fun delete(delivery: Delivery){
+        deliveryDao.delete(delivery)
+    }
     companion object {
         private var instance: DeliveryRepository? = null
 

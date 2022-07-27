@@ -1,10 +1,11 @@
-package com.gyunni.trackbox
+package com.gyunni.trackbox.view.util
 
 import android.graphics.*
 import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
+import com.gyunni.trackbox.R
 import kotlin.math.min
 import com.gyunni.trackbox.view.ui.main.MainAdapter
 
@@ -103,7 +104,9 @@ class SwipeHelperCallback(private val mainAdapter: MainAdapter) : ItemTouchHelpe
     }
 
     // swipe_view 반환 -> swipe_view만 이동할 수 있게 해줌
-    private fun getView(viewHolder: RecyclerView.ViewHolder) : View = viewHolder.itemView.findViewById(R.id.swipe_view)
+    private fun getView(viewHolder: RecyclerView.ViewHolder) : View = viewHolder.itemView.findViewById(
+        R.id.swipe_view
+    )
 
     // swipe_view 를 swipe 했을 때 <삭제> 화면이 보이도록 고정
     private fun clampViewPositionHorizontal(
