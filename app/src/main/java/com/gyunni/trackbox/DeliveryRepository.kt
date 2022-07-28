@@ -3,9 +3,7 @@ package com.gyunni.trackbox
 import android.app.Application
 import androidx.lifecycle.LiveData
 
-class DeliveryRepository(application: Application) {
-
-    private val deliveryDao = DeliveryDatabase.getInstance(application)!!.deliveryDao()
+class DeliveryRepository(private val deliveryDao: DeliveryDao) {
 
     fun getList() : LiveData<MutableList<Delivery>> {
         return deliveryDao.getList()
@@ -17,13 +15,5 @@ class DeliveryRepository(application: Application) {
 
     fun delete(delivery: Delivery){
         deliveryDao.delete(delivery)
-    }
-    companion object {
-        private var instance: DeliveryRepository? = null
-
-        fun getInstance(application : Application): DeliveryRepository? { // singleton pattern
-            if (instance == null) instance = DeliveryRepository(application)
-            return instance
-        }
     }
 }

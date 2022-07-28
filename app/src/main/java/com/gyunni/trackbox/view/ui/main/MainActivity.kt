@@ -3,22 +3,26 @@ package com.gyunni.trackbox.view.ui.main
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.gyunni.trackbox.Delivery
-import com.gyunni.trackbox.R
+import com.gyunni.trackbox.*
 import com.gyunni.trackbox.view.util.SwipeHelperCallback
 import com.gyunni.trackbox.databinding.ActivityMainBinding
 import com.gyunni.trackbox.view.ui.add.AddDeliveryFragment
 import com.gyunni.trackbox.view.ui.base.BaseActivity
 import com.gyunni.trackbox.view.ui.lookup.LookUpFragment
 import com.gyunni.trackbox.view.util.VerticalItemDecorator
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private lateinit var mainAdapter: MainAdapter
-    private val viewModel: MainViewModel by lazy { ViewModelProvider(this, MainViewModel.Factory(application))[MainViewModel::class.java] }
+    private val viewModel by viewModel<MainViewModel>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +73,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         viewModel.getList().observe(this, Observer{
             mainAdapter.setList(it)
+            if(it.isEmpty()){
+                binding.textEmptyList.visibility = View.VISIBLE
+            }else{
+                binding.textEmptyList.visibility = View.INVISIBLE
+            }
             mainAdapter.notifyDataSetChanged()
         })
     }

@@ -5,15 +5,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.gyunni.trackbox.*
 import com.gyunni.trackbox.databinding.FragmentAddDeliveryBinding
 import com.gyunni.trackbox.view.ui.base.BaseBottomSheetDialogFragment
 import com.gyunni.trackbox.view.util.CarrierIdUtil
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import org.koin.android.ext.android.inject
 
 class AddDeliveryFragment :
     BaseBottomSheetDialogFragment<FragmentAddDeliveryBinding>(R.layout.fragment_add_delivery) {
@@ -22,12 +23,9 @@ class AddDeliveryFragment :
     private var trackId: String? = null
     private var nickName: String? = null
 
-    private val viewModel: AddDeliveryViewModel by lazy {
-        ViewModelProvider(
-            this,
-            AddDeliveryViewModel.Factory(mainActivity.application)
-        )[AddDeliveryViewModel::class.java]
-    }
+    private val deliveryService : DeliveryService by inject()
+    private val viewModel by viewModel<AddDeliveryViewModel>()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,34 +43,34 @@ class AddDeliveryFragment :
             trackId = binding.editTextTrackId.text.toString()
             nickName = binding.editTextNickName.text.toString()
 
-            RetrofitClient.service.getData(carrierId, trackId)
-                .enqueue(object : Callback<DeliveryResponse> {
-                    override fun onResponse(
-                        call: Call<DeliveryResponse>,
-                        response: Response<DeliveryResponse>
-                    ) {
-                        if(response.isSuccessful) {
-                            val result: DeliveryResponse? = response.body()
-                            Log.d("AddDeliveryFragment", "onResponse 성공: " + result?.toString());
-                            val testResult: Delivery? = result?.toDelivery(
-                                result.carrier.id?.toLong(),
-                                result.carrier.name.toString(),
-                                result.carrier.id.toString(),
-                                nickName!!
-                            )
-                            Log.d("AddDeliveryFragment", testResult.toString())
-                            viewModel.insert(testResult!!)
-                            dismiss()
-                        }else{
-                            Log.d("AddDeliveryFragment", "onResponse 실패");
-                            Toast.makeText(mainActivity,"해당 운송장이 존재하지 않습니다.",Toast.LENGTH_SHORT).show()
-                        }
+            deliveryService.getData(carrierId, trackId).enqueue(object : Callback<DeliveryResponse>{
+                override fun onResponse(
+                    call: Call<DeliveryResponse>,
+                    response: Response<DeliveryResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val result: DeliveryResponse? = response.body()
+                        Log.d("AddDeliveryFragment", "onResponse 성공: " + result?.toString());
+                        val testResult: Delivery? = result?.toDelivery(
+                            result.carrier.id?.toLong(),
+                            result.carrier.name.toString(),
+                            result.carrier.id.toString(),
+                            nickName!!
+                        )
+                        Log.d("AddDeliveryFragment", testResult.toString())
+                        viewModel.insert(testResult!!)
+                        dismiss()
+                    } else {
+                        Log.d("AddDeliveryFragment", "onResponse 실패");
+                        Toast.makeText(mainActivity, "해당 운송장이 존재하지 않습니다.", Toast.LENGTH_SHORT)
+                            .show()
                     }
+                }
 
-                    override fun onFailure(call: Call<DeliveryResponse>, t: Throwable) {
-                        Log.d("AddDeliveryFragment", "onFailure 에러: " + t.message.toString());
-                    }
-                })
+                override fun onFailure(call: Call<DeliveryResponse>, t: Throwable) {
+                    Log.d("AddDeliveryFragment", "onFailure 에러: " + t.message.toString());
+                }
+            })
         }
 
     }
