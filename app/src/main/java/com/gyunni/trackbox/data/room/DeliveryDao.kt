@@ -1,7 +1,8 @@
-package com.gyunni.trackbox
+package com.gyunni.trackbox.data.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.gyunni.trackbox.data.model.Delivery
 
 @Dao
 interface DeliveryDao {
@@ -13,4 +14,7 @@ interface DeliveryDao {
 
     @Delete
     fun delete(delivery: Delivery)
+
+    @Update
+    fun update(delivery: Delivery)
 }

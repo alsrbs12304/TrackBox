@@ -1,7 +1,9 @@
-package com.gyunni.trackbox
+package com.gyunni.trackbox.data
 
-import android.app.Application
 import androidx.lifecycle.LiveData
+import com.gyunni.trackbox.data.model.Delivery
+import com.gyunni.trackbox.data.retrofit.DeliveryService
+import com.gyunni.trackbox.data.room.DeliveryDao
 
 class DeliveryRepository(private val deliveryDao: DeliveryDao) {
 
@@ -15,5 +17,9 @@ class DeliveryRepository(private val deliveryDao: DeliveryDao) {
 
     fun delete(delivery: Delivery){
         deliveryDao.delete(delivery)
+    }
+
+    fun update(delivery: Delivery){
+        deliveryDao.update(delivery)
     }
 }

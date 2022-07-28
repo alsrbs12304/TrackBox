@@ -1,4 +1,4 @@
-package com.gyunni.trackbox
+package com.gyunni.trackbox.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="delivery"
-            type="com.gyunni.trackbox.Delivery" />
+            type="com.gyunni.trackbox.data.model.Delivery" />
     </data>
     <FrameLayout
         android:layout_width="match_parent"

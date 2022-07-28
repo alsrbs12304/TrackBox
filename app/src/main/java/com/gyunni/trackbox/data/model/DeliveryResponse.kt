@@ -1,4 +1,4 @@
-package com.gyunni.trackbox
+package com.gyunni.trackbox.data.model
 
 import com.gyunni.trackbox.view.util.CarrierIdUtil.Companion.convertId
 

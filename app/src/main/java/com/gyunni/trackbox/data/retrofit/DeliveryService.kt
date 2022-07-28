@@ -1,5 +1,6 @@
-package com.gyunni.trackbox
+package com.gyunni.trackbox.data.retrofit
 
+import com.gyunni.trackbox.data.model.DeliveryResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

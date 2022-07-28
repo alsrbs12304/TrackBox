@@ -7,14 +7,17 @@ import android.view.View
 import android.widget.Toast
 import com.google.android.material.chip.Chip
 import com.gyunni.trackbox.*
+import com.gyunni.trackbox.data.model.Delivery
+import com.gyunni.trackbox.data.model.DeliveryResponse
+import com.gyunni.trackbox.data.retrofit.DeliveryService
 import com.gyunni.trackbox.databinding.FragmentAddDeliveryBinding
 import com.gyunni.trackbox.view.ui.base.BaseBottomSheetDialogFragment
 import com.gyunni.trackbox.view.util.CarrierIdUtil
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import org.koin.android.ext.android.inject
 
 class AddDeliveryFragment :
     BaseBottomSheetDialogFragment<FragmentAddDeliveryBinding>(R.layout.fragment_add_delivery) {
@@ -62,8 +65,7 @@ class AddDeliveryFragment :
                         dismiss()
                     } else {
                         Log.d("AddDeliveryFragment", "onResponse 실패");
-                        Toast.makeText(mainActivity, "해당 운송장이 존재하지 않습니다.", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(mainActivity, "해당 운송장이 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
 

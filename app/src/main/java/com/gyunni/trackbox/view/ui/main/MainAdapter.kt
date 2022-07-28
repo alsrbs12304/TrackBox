@@ -7,10 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.gyunni.trackbox.Delivery
+import com.gyunni.trackbox.data.model.Delivery
 import com.gyunni.trackbox.R
 import java.util.*
 import kotlin.collections.ArrayList

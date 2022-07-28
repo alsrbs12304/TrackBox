@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.gyunni.trackbox.Delivery
-import com.gyunni.trackbox.DeliveryResponse
+import com.gyunni.trackbox.data.model.DeliveryResponse
 import com.gyunni.trackbox.R
-import com.gyunni.trackbox.view.ui.main.MainAdapter
 import com.gyunni.trackbox.view.util.TimeUtil
 
 class LookUpAdapter(private val progressList : ArrayList<DeliveryResponse.Progresses>, private val context: Context): RecyclerView.Adapter<LookUpAdapter.ViewHolder>() {
