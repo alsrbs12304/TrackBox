@@ -2,8 +2,12 @@ package com.gyunni.trackbox.data
 
 import androidx.lifecycle.LiveData
 import com.gyunni.trackbox.data.model.Delivery
+import com.gyunni.trackbox.data.model.DeliveryResponse
 import com.gyunni.trackbox.data.retrofit.DeliveryService
 import com.gyunni.trackbox.data.room.DeliveryDao
+import retrofit2.Call
+import retrofit2.Response
+
 
 class DeliveryRepository(private val deliveryDao: DeliveryDao) {
 

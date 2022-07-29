@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import com.google.android.material.chip.Chip
 import com.gyunni.trackbox.*
 import com.gyunni.trackbox.data.model.Delivery
@@ -29,7 +30,6 @@ class AddDeliveryFragment :
     private val deliveryService : DeliveryService by inject()
     private val viewModel by viewModel<AddDeliveryViewModel>()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setChipGroup(binding)
@@ -53,7 +53,7 @@ class AddDeliveryFragment :
                 ) {
                     if (response.isSuccessful) {
                         val result: DeliveryResponse? = response.body()
-                        Log.d("AddDeliveryFragment", "onResponse 성공: " + result?.toString());
+                        Log.d("AddDeliveryFragment", "onResponse 성공: " + result?.toString())
                         val testResult: Delivery? = result?.toDelivery(
                             result.carrier.id?.toLong(),
                             result.carrier.name.toString(),
@@ -73,6 +73,7 @@ class AddDeliveryFragment :
                     Log.d("AddDeliveryFragment", "onFailure 에러: " + t.message.toString());
                 }
             })
+
         }
 
     }
