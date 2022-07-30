@@ -31,4 +31,10 @@ class AddDeliveryViewModel(private val repository: DeliveryRepository) : BaseVie
         }
     }
 
+    fun update(delivery: Delivery){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.update(delivery)
+        }
+    }
+
 }
