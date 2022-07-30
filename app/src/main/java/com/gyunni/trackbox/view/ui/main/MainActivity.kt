@@ -3,8 +3,10 @@ package com.gyunni.trackbox.view.ui.main
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.get
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.gyunni.trackbox.*
 import com.gyunni.trackbox.data.model.Delivery
 import com.gyunni.trackbox.view.util.SwipeHelperCallback
@@ -23,32 +25,45 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val testMainAdapter = TestMainAdapter()
         binding.apply {
             addDeliveryBtn.setOnClickListener {
                 val bottomSheet = AddDeliveryFragment()
                 bottomSheet.show(supportFragmentManager, bottomSheet.tag)
             }
+            swipeLayout.setOnRefreshListener {
+                mainAdapter.notifyDataSetChanged()
+                swipeLayout.isRefreshing = false
+            }
+            rvMain.adapter = testMainAdapter
+            rvMain.addItemDecoration(VerticalItemDecorator(10))
+            viewModel.getList().observe(lifecycleOwner!! , Observer{
+                it.let { testMainAdapter.submitList(it) }
+            })
         }
 
-        initRv()
+//        initRv()
 
-        mainAdapter.setOnItemClickListener(object : MainAdapter.OnItemClickListener{
-            override fun onItemClick(v: View, data: Delivery, pos: Int) {
-                val bottomSheetDialog = LookUpFragment()
-                var bundle = Bundle()
-                bundle.putString("name", data.carrierName)
-                bundle.putString("id",data.trackId)
-                bottomSheetDialog.arguments = bundle
-                bottomSheetDialog.show(supportFragmentManager, bottomSheetDialog.tag)
-            }
-        })
+//        mainAdapter.setOnItemClickListener(object : MainAdapter.OnItemClickListener{
+//            override fun onItemClick(v: View, data: Delivery, pos: Int) {
+//                val bottomSheetDialog = LookUpFragment()
+//                var bundle = Bundle()
+//                bundle.putString("name", data.carrierName)
+//                bundle.putString("id",data.trackId)
+//                bottomSheetDialog.arguments = bundle
+//                bottomSheetDialog.show(supportFragmentManager, bottomSheetDialog.tag)
+//            }
+//        })
+//
+//        mainAdapter.setOnRemoveClickListener(object : MainAdapter.OnRemoveClickListener{
+//            override fun onRemoveClick(v: View, data: Delivery, pos: Int) {
+//                viewModel.delete(data)
+//                mainAdapter.removeData(pos)
+//            }
+//        })
 
-        mainAdapter.setOnRemoveClickListener(object : MainAdapter.OnRemoveClickListener{
-            override fun onRemoveClick(v: View, data: Delivery, pos: Int) {
-                viewModel.delete(data)
-                mainAdapter.removeData(pos)
-            }
-        })
+
+
     }
 
     @SuppressLint("ClickableViewAccessibility")

@@ -67,8 +67,7 @@ class MainAdapter(private val context: Context):RecyclerView.Adapter<MainAdapter
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(deliveryList[position])
-    }
+        holder.bind(deliveryList[position]) }
 
     override fun getItemCount(): Int {
         return deliveryList.size
