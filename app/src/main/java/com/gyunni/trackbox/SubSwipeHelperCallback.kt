@@ -1,15 +1,13 @@
-package com.gyunni.trackbox.view.util
+package com.gyunni.trackbox
 
 import android.graphics.*
 import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
-import com.gyunni.trackbox.R
 import kotlin.math.min
-import com.gyunni.trackbox.view.ui.main.TestMainAdapter
 
-class TestSwipeHelperCallback(private val testMainAdapter: TestMainAdapter) : ItemTouchHelper.Callback() {
+class SubSwipeHelperCallback(private val mainAdapter: SubMainAdapter) : ItemTouchHelper.Callback() {
 
     // swipe_view 를 swipe 했을 때 <삭제> 화면이 보이도록 고정하기 위한 변수들
     private var currentPosition: Int? = null    // 현재 선택된 recycler view의 position
@@ -31,12 +29,12 @@ class TestSwipeHelperCallback(private val testMainAdapter: TestMainAdapter) : It
     ): Boolean {
         val fromPos: Int = viewHolder.adapterPosition
         val toPos: Int = target.adapterPosition
-        testMainAdapter.swapData(fromPos, toPos)
+        mainAdapter.swapData(fromPos, toPos)
         return true
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        testMainAdapter.removeData(viewHolder.layoutPosition)
+        mainAdapter.removeData(viewHolder.layoutPosition)
     }
 
     // -------------swipe 됐을 때 일어날 동작---------------

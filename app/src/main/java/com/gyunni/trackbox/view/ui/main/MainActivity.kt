@@ -5,21 +5,19 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.core.view.get
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.gyunni.trackbox.*
 import com.gyunni.trackbox.data.model.Delivery
 import com.gyunni.trackbox.data.model.DeliveryResponse
 import com.gyunni.trackbox.data.retrofit.DeliveryService
-import com.gyunni.trackbox.view.util.SwipeHelperCallback
 import com.gyunni.trackbox.databinding.ActivityMainBinding
 import com.gyunni.trackbox.view.ui.add.AddDeliveryFragment
 import com.gyunni.trackbox.view.ui.add.AddDeliveryViewModel
 import com.gyunni.trackbox.view.ui.base.BaseActivity
 import com.gyunni.trackbox.view.ui.lookup.LookUpFragment
 import com.gyunni.trackbox.view.util.CarrierIdUtil
-import com.gyunni.trackbox.view.util.TestSwipeHelperCallback
+import com.gyunni.trackbox.view.util.SwipeHelperCallback
 import com.gyunni.trackbox.view.util.VerticalItemDecorator
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,24 +29,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private var carrierId: String? = null
 
-    private lateinit var mainAdapter: MainAdapter
-    private val testMainAdapter = TestMainAdapter()
+    private val mainAdapter = MainAdapter()
     private val viewModel by viewModel<MainViewModel>()
-
 
     private val deliveryService : DeliveryService by inject()
     private val addViewModel by viewModel<AddDeliveryViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        val testMainAdapter = TestMainAdapter()
         binding.apply {
             addDeliveryBtn.setOnClickListener {
                 val bottomSheet = AddDeliveryFragment()
                 bottomSheet.show(supportFragmentManager, bottomSheet.tag)
             }
             swipeLayout.setOnRefreshListener {
-                testMainAdapter.currentList.forEach {
+                mainAdapter.currentList.forEach {
                     carrierId = CarrierIdUtil.convertId(it.carrierName)
                     deliveryService.getData(carrierId, it.trackId).enqueue(object : Callback<DeliveryResponse>{
                         override fun onResponse(
@@ -77,19 +72,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                         }
                     })
                 }
-                testMainAdapter.notifyDataSetChanged()
+                mainAdapter.notifyDataSetChanged()
                 swipeLayout.isRefreshing = false
             }
-            rvMain.adapter = testMainAdapter
+            rvMain.adapter = mainAdapter
             rvMain.addItemDecoration(VerticalItemDecorator(10))
             viewModel.getList().observe(lifecycleOwner!! , Observer{
-                it.let { testMainAdapter.submitList(it) }
+                it.let { mainAdapter.submitList(it) }
             })
         }
 
         initRv()
 
-        testMainAdapter.setOnItemClickListener(object : TestMainAdapter.OnItemClickListener{
+        mainAdapter.setOnItemClickListener(object : MainAdapter.OnItemClickListener{
             override fun onItemClick(v: View, data: Delivery, pos: Int) {
                 val bottomSheetDialog = LookUpFragment()
                 val bundle = Bundle()
@@ -101,10 +96,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         })
 
-        testMainAdapter.setOnRemoveClickListener(object : TestMainAdapter.OnRemoveClickListener {
+        mainAdapter.setOnRemoveClickListener(object : MainAdapter.OnRemoveClickListener {
             override fun onRemoveClick(v: View, data: Delivery, pos: Int) {
                 viewModel.delete(data)
-                testMainAdapter.removeData(pos)
+                mainAdapter.removeData(pos)
             }
         })
 
@@ -136,7 +131,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 //        binding.rvMain.adapter = mainAdapter
 //        binding.rvMain.addItemDecoration(VerticalItemDecorator(10))
 //
-        val swipeHelperCallback = TestSwipeHelperCallback(testMainAdapter).apply {
+        val swipeHelperCallback = SwipeHelperCallback(mainAdapter).apply {
             setClamp(resources.displayMetrics.widthPixels.toFloat() / 4)
         }
         ItemTouchHelper(swipeHelperCallback).attachToRecyclerView(binding.rvMain)
@@ -156,10 +151,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 //            mainAdapter.notifyDataSetChanged()
 //        })
 
-        binding.rvMain.adapter = testMainAdapter
+        binding.rvMain.adapter = mainAdapter
         binding.rvMain.addItemDecoration(VerticalItemDecorator(10))
         viewModel.getList().observe(this , Observer{
-            it.let { testMainAdapter.submitList(it) }
+            it.let { mainAdapter.submitList(it) }
             if(it.isEmpty()){
                 binding.textEmptyList.visibility = View.VISIBLE
             }else{

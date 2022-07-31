@@ -1,39 +1,22 @@
-package com.gyunni.trackbox.view.ui.main
+package com.gyunni.trackbox
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.gyunni.trackbox.R
 import com.gyunni.trackbox.data.model.Delivery
 import java.util.*
+import kotlin.collections.ArrayList
 
-class TestMainAdapter : ListAdapter<Delivery, TestMainAdapter.ViewHolder>(ContactComparator()) {
+class SubMainAdapter(private val context: Context):RecyclerView.Adapter<SubMainAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.create(parent)
-    }
+    private var deliveryList : MutableList<Delivery> = ArrayList()
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val current = getItem(position)
-        holder.bind(current)
-
-        holder.itemView.findViewById<LinearLayout>(R.id.swipe_view).setOnClickListener {
-            listener?.onItemClick(it,current,position)
-        }
-
-        holder.itemView.findViewById<TextView>(R.id.tvRemove).setOnClickListener{
-            RemoveListener?.onRemoveClick(it,current,position)
-        }
-    }
-
-    class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
-
+    inner class ViewHolder(view : View):RecyclerView.ViewHolder(view){
         private val txtNickName : TextView = itemView.findViewById(R.id.text_nickName)
         private val txtStatus : TextView = itemView.findViewById(R.id.text_status)
         private val txtCarrierName : TextView = itemView.findViewById(R.id.text_carrierName)
@@ -59,27 +42,36 @@ class TestMainAdapter : ListAdapter<Delivery, TestMainAdapter.ViewHolder>(Contac
                     imgStatus.setImageResource(R.drawable.complete)
                 }
             }
-        }
-        companion object{
-            fun create(parent: ViewGroup):ViewHolder{
-                val view : View = LayoutInflater.from(parent.context).inflate(R.layout.item_main,parent, false)
-                return ViewHolder(view)
+
+            val pos = adapterPosition
+            if(pos!= RecyclerView.NO_POSITION)
+            {
+                swipeView.setOnClickListener {
+                    listener?.onItemClick(itemView,item,pos)
+                }
             }
+
+            tvRemove.setOnClickListener {
+                RemoveListener?.onRemoveClick(itemView,item,pos)
+            }
+
         }
     }
 
-    class ContactComparator:DiffUtil.ItemCallback<Delivery>(){
-        override fun areItemsTheSame(oldItem: Delivery, newItem: Delivery): Boolean {
-            return oldItem === newItem
-        }
-
-        override fun areContentsTheSame(oldItem: Delivery, newItem: Delivery): Boolean {
-            return oldItem.id == newItem.id
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.item_main,parent,false)
+        return ViewHolder(view)
     }
 
-    override fun getCurrentList(): MutableList<Delivery> {
-        return super.getCurrentList()
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(deliveryList[position]) }
+
+    override fun getItemCount(): Int {
+        return deliveryList.size
+    }
+
+    fun setList(delivery: MutableList<Delivery>){
+        this.deliveryList = delivery
     }
 
     interface OnItemClickListener{
@@ -103,15 +95,13 @@ class TestMainAdapter : ListAdapter<Delivery, TestMainAdapter.ViewHolder>(Contac
 
     // 현재 선택된 데이터와 드래그한 위치에 있는 데이터를 교환
     fun swapData(fromPos: Int, toPos: Int) {
-        val newList = currentList.toMutableList()
-        Collections.swap(newList, fromPos, toPos)
+        Collections.swap(deliveryList, fromPos, toPos)
         notifyItemMoved(fromPos, toPos)
     }
 
     // position 위치의 데이터를 삭제 후 어댑터 갱신
     fun removeData(position: Int) {
-        val newList = currentList.toMutableList()
-        newList.removeAt(position)
+        deliveryList.removeAt(position)
         notifyItemRemoved(position)
     }
 }
