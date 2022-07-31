@@ -22,10 +22,4 @@ class MainViewModel(private val repository: DeliveryRepository) : BaseViewModel(
             repository.delete(delivery)
         }
     }
-
-    fun update(delivery: Delivery){
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.update(delivery)
-        }
-    }
 }
