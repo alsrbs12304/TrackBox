@@ -5,13 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.gyunni.trackbox.data.model.Delivery
 import com.gyunni.trackbox.data.DeliveryRepository
+import com.gyunni.trackbox.data.model.DeliveryResponse
 import com.gyunni.trackbox.view.ui.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: DeliveryRepository) : BaseViewModel(){
 
-    val deliveryList =  MutableLiveData<Delivery>()
+    val deliveryList =  MutableLiveData<DeliveryResponse>()
 
     fun getList() : LiveData<MutableList<Delivery>> {
         return repository.getList()
@@ -20,6 +21,12 @@ class MainViewModel(private val repository: DeliveryRepository) : BaseViewModel(
     fun delete(delivery: Delivery){
         viewModelScope.launch(Dispatchers.IO) {
             repository.delete(delivery)
+        }
+    }
+
+    fun update(delivery: Delivery){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.update(delivery)
         }
     }
 }

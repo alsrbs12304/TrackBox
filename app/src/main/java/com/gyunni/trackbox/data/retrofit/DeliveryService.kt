@@ -11,4 +11,10 @@ interface DeliveryService {
         @Path("carrier_id") carrierId: String?,
         @Path("track_id") trackId: String?
     ): Call<DeliveryResponse>
+
+    @GET("carriers/{carrier_id}/tracks/{track_id}")
+    fun getData2(
+        @Path("carrier_id") carrierId: String?,
+        @Path("track_id") trackId: String?
+    ): DeliveryResponse
 }

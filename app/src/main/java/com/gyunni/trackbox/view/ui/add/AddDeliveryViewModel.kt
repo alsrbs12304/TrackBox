@@ -18,9 +18,6 @@ import java.net.ConnectException
 
 class AddDeliveryViewModel(private val repository: DeliveryRepository) : BaseViewModel() {
 
-    val deliveryList : MutableLiveData<DeliveryResponse> = MutableLiveData()
-    val deliveryList2 = MutableLiveData<DeliveryResponse>()
-
     val carrierName = MutableLiveData<String>()
     val trackId = MutableLiveData<String>()
     val nickName = MutableLiveData<String>()
@@ -30,11 +27,4 @@ class AddDeliveryViewModel(private val repository: DeliveryRepository) : BaseVie
             repository.insert(delivery)
         }
     }
-
-    fun update(delivery: Delivery){
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.update(delivery)
-        }
-    }
-
 }

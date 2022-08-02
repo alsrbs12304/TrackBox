@@ -5,11 +5,12 @@ import com.gyunni.trackbox.data.model.Delivery
 import com.gyunni.trackbox.data.model.DeliveryResponse
 import com.gyunni.trackbox.data.retrofit.DeliveryService
 import com.gyunni.trackbox.data.room.DeliveryDao
-import retrofit2.Call
-import retrofit2.Response
+import org.koin.android.ext.android.inject
 
 
 class DeliveryRepository(private val deliveryDao: DeliveryDao) {
+
+//    private val deliveryService : DeliveryService by inject()
 
     fun getList() : LiveData<MutableList<Delivery>> {
         return deliveryDao.getList()

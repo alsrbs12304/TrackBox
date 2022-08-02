@@ -13,7 +13,6 @@ import com.gyunni.trackbox.data.model.DeliveryResponse
 import com.gyunni.trackbox.data.retrofit.DeliveryService
 import com.gyunni.trackbox.databinding.ActivityMainBinding
 import com.gyunni.trackbox.view.ui.add.AddDeliveryFragment
-import com.gyunni.trackbox.view.ui.add.AddDeliveryViewModel
 import com.gyunni.trackbox.view.ui.base.BaseActivity
 import com.gyunni.trackbox.view.ui.lookup.LookUpFragment
 import com.gyunni.trackbox.view.util.CarrierIdUtil
@@ -33,7 +32,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private val viewModel by viewModel<MainViewModel>()
 
     private val deliveryService : DeliveryService by inject()
-    private val addViewModel by viewModel<AddDeliveryViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +58,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                                     it.nickName!!
                                 )
                                 Log.d("MainActivity", testResult.toString())
-                                addViewModel.update(testResult!!)
+                                viewModel.update(testResult!!)
                             } else {
                                 Log.d("MainActivity", "onResponse 실패");
                                 Toast.makeText(applicationContext, "해당 운송장이 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
@@ -120,9 +118,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 //                mainAdapter.removeData(pos)
 //            }
 //        })
-
-
-
     }
 
     @SuppressLint("ClickableViewAccessibility")
