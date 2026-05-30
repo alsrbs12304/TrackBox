@@ -52,10 +52,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                                 val result: DeliveryResponse? = response.body()
                                 Log.d("MainActivity", "onResponse 성공: " + result?.toString())
                                 val testResult: Delivery? = result?.toDelivery(
-                                    result.carrier.id?.toLong(),
-                                    result.carrier.name.toString(),
-                                    result.carrier.id.toString(),
-                                    it.nickName!!
+                                    it.id,
+                                    it.carrierName,
+                                    it.trackId,
+                                    it.nickName ?: ""
                                 )
                                 Log.d("MainActivity", testResult.toString())
                                 viewModel.update(testResult!!)

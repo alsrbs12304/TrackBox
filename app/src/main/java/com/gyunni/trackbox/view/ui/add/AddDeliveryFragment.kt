@@ -24,6 +24,7 @@ class AddDeliveryFragment :
     BaseBottomSheetDialogFragment<FragmentAddDeliveryBinding>(R.layout.fragment_add_delivery) {
 
     private var carrierId: String? = null
+    private var carrierName: String? = null
     private var trackId: String? = null
     private var nickName: String? = null
 
@@ -39,7 +40,9 @@ class AddDeliveryFragment :
         }
 
         binding.chipGroupAddCarrierName.setOnCheckedChangeListener { group, checkedId ->
-            carrierId = CarrierIdUtil.convertId(group.findViewById<Chip>(checkedId).text.toString())
+            val chipText = group.findViewById<Chip>(checkedId).text.toString()
+            carrierName = chipText
+            carrierId = CarrierIdUtil.convertId(chipText)
         }
 
         binding.buttonAddLookUp.setOnClickListener {
@@ -55,9 +58,9 @@ class AddDeliveryFragment :
                         val result: DeliveryResponse? = response.body()
                         Log.d("AddDeliveryFragment", "onResponse 성공: " + result?.toString())
                         val testResult: Delivery? = result?.toDelivery(
-                            result.carrier.id?.toLong(),
-                            result.carrier.name.toString(),
-                            result.carrier.id.toString(),
+                            null,
+                            carrierName!!,
+                            trackId!!,
                             nickName!!
                         )
                         Log.d("AddDeliveryFragment", testResult.toString())

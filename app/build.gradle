@@ -5,12 +5,13 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    namespace 'com.gyunni.trackbox'
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.gyunni.trackbox"
         minSdk 23
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -33,6 +34,7 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        buildConfig = true
     }
 }
 
@@ -98,4 +100,6 @@ dependencies {
 
     // Swipe Refresh layout
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
+    implementation 'androidx.work:work-runtime-ktx:2.7.0'
 }
